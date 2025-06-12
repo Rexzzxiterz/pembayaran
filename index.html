@@ -1,97 +1,325 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trading Harian Journal</title>
-    <style>
-        body {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #58a6ff;
-        }
-        input, select, button {
-            margin: 5px 0;
-            padding: 10px;
-            width: 100%;
-            border-radius: 5px;
-            border: none;
-        }
-        button {
-            background-color: #238636;
-            color: white;
-            font-weight: bold;
-        }
-        .result {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #161b22;
-            border-radius: 5px;
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Secure Payment Gateway</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+  @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+  /* Reset & base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Container */
+  .container {
+    max-width: 480px;
+    margin: 2rem auto 4rem;
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 32px 24px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+
+  header {
+    padding: 1.5rem 1rem;
+    background: rgba(255,255,255,0.1);
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 0.08em;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    user-select: none;
+  }
+
+  main {
+    flex: 1;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    font-size: 1rem;
+    transition: background-color 0.25s ease;
+  }
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="number"]:focus,
+  select:focus {
+    outline: none;
+    background: rgba(255,255,255,0.3);
+  }
+
+  .material-icons {
+    vertical-align: middle;
+    margin-right: 6px;
+    font-size: 1.3rem;
+    color: #90caf9;
+  }
+
+  button[type="submit"] {
+    background: linear-gradient(135deg, #4caf50 0%, #087f23 100%);
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+  button[type="submit"]:hover,
+  button[type="submit"]:focus {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(76,175,80,0.4);
+  }
+  button[type="submit"]:disabled {
+    background: rgba(100, 100, 100, 0.5);
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .confirmation {
+    background: rgba(72, 187, 120, 0.9);
+    border-radius: 14px;
+    padding: 18px 24px;
+    margin-top: 24px;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    animation: fadeIn 0.6s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 20px 10px;
+    background: rgba(255,255,255,0.08);
+    font-size: 0.9rem;
+    color: #bbb;
+    user-select: none;
+  }
+
+  /* QR Info Box */
+  .qr-info {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: -12px;
+    margin-bottom: 12px;
+    text-align: center;
+    font-size: 0.95rem;
+    color: #b0d8ff;
+    display: none;
+    user-select: text;
+  }
+  .qr-info img {
+    margin-top: 12px;
+    max-width: 160px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 0 15px 3px rgba(33,150,243,0.6);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .container {
+      margin: 1rem 1rem 3rem;
+      padding: 24px 16px;
+    }
+    header {
+      font-size: 1.5rem;
+      padding: 1rem 0.5rem;
+    }
+  }
+</style>
 </head>
 <body>
-    <h1>Trading Harian Journal</h1><label>Modal Awal (IDR):</label>
-<select id="modal">
-    <option value="10000">10.000</option>
-    <option value="15000">15.000</option>
-    <option value="20000">20.000</option>
-</select>
+  <header>Secure Payment Gateway</header>
+  <main>
+    <section class="container" role="main" aria-labelledby="paymentFormTitle">
+      <h1 id="paymentFormTitle" style="margin-bottom: 1rem; font-weight: 700; font-size: 1.5rem; color: #90caf9; text-align:center;">Make a Payment</h1>
+      <form id="paymentForm" novalidate>
+        <div>
+          <label for="nameInput"><span class="material-icons" aria-hidden="true">person</span>Name</label>
+          <input type="text" id="nameInput" name="name" placeholder="Your full name" autocomplete="name" required aria-required="true" />
+          <span class="error-message" aria-live="polite" style="color:#f44336; font-size: 0.85rem; display:none;"></span>
+        </div>
+        <div>
+          <label for="emailInput"><span class="material-icons" aria-hidden="true">email</span>Email</label>
+          <input type="email" id="emailInput" name="email" placeholder="you@example.com" autocomplete="email" required aria-required="true" />
+          <span class="error-message" aria-live="polite" style="color:#f44336; font-size: 0.85rem; display:none;"></span>
+        </div>
+        <div>
+          <label for="amountInput"><span class="material-icons" aria-hidden="true">attach_money</span>Amount (USD)</label>
+          <input type="number" id="amountInput" name="amount" placeholder="e.g., 50" min="1" max="10000" required aria-required="true" />
+          <span class="error-message" aria-live="polite" style="color:#f44336; font-size: 0.85rem; display:none;"></span>
+        </div>
+        <div>
+          <label for="paymentMethod"><span class="material-icons" aria-hidden="true">payment</span>Payment Method</label>
+          <select id="paymentMethod" name="paymentMethod" required aria-required="true" aria-describedby="paymentMethodDesc">
+            <option value="" disabled selected>Select a method...</option>
+            <option value="credit-card">Credit Card</option>
+            <option value="paypal">PayPal</option>
+            <option value="bank-transfer">Bank Transfer</option>
+            <option value="dana">DANA</option>
+            <option value="qris">QRIS</option>
+          </select>
+          <span id="paymentMethodDesc" class="sr-only">Select payment method including Credit Card, PayPal, Bank Transfer, DANA or QRIS</span>
+          <span class="error-message" aria-live="polite" style="color:#f44336; font-size: 0.85rem; display:none;"></span>
+          <div id="qrInfo" class="qr-info" aria-live="polite" aria-atomic="true">
+            <!-- Dynamic QR info will be inserted here -->
+          </div>
+        </div>
+        <button type="submit" id="submitBtn" aria-live="polite" aria-disabled="false">
+          <span class="material-icons" aria-hidden="true">send</span> Pay Now
+        </button>
+      </form>
+      <div id="confirmation" class="confirmation" role="alert" style="display:none;">
+        Payment submitted successfully! Thank you for your transaction.
+      </div>
+    </section>
+  </main>
 
-<label>Pair:</label>
-<select id="pair">
-    <option value="BTC">BTC</option>
-    <option value="FARTCOIN">FARTCOIN</option>
-    <option value="SOLANA">SOLANA</option>
-</select>
-
-<label>Harga Beli (IDR):</label>
-<input type="number" id="hargaBeli">
-
-<label>Harga Jual (IDR):</label>
-<input type="number" id="hargaJual">
-
-<label>Jumlah Koin:</label>
-<input type="number" id="jumlah">
-
-<button onclick="hitungProfit()">Hitung</button>
-
-<div class="result" id="hasil"></div>
+  <footer>
+    &copy; 2025 Secure Payment Gateway. All rights reserved.
+  </footer>
 
 <script>
-    function hitungProfit() {
-        let hargaBeli = parseFloat(document.getElementById("hargaBeli").value);
-        let hargaJual = parseFloat(document.getElementById("hargaJual").value);
-        let jumlah = parseFloat(document.getElementById("jumlah").value);
-        let modal = parseFloat(document.getElementById("modal").value);
+  (() => {
+    const form = document.getElementById('paymentForm');
+    const confirmation = document.getElementById('confirmation');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const paymentMethodSelect = document.getElementById('paymentMethod');
+    const qrInfo = document.getElementById('qrInfo');
 
-        if (isNaN(hargaBeli) || isNaN(hargaJual) || isNaN(jumlah)) {
-            document.getElementById("hasil").innerHTML = "Mohon isi semua kolom dengan benar.";
-            return;
-        }
+    const fields = [
+      {id: 'nameInput', validate: v => v.trim().length >= 2, error: 'Please enter your full name.'},
+      {id: 'emailInput', validate: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), error: 'Please enter a valid email address.'},
+      {id: 'amountInput', validate: v => +v >= 1 && +v <= 10000, error: 'Amount must be between 1 and 10,000.'},
+      {id: 'paymentMethod', validate: v => v !== '', error: 'Please select a payment method.'},
+    ];
 
-        let totalBeli = hargaBeli * jumlah;
-        let totalJual = hargaJual * jumlah;
-        let profit = totalJual - totalBeli;
-        let profitPersen = (profit / totalBeli) * 100;
-
-        let hasilText = Total Beli: Rp ${totalBeli.toFixed(2)}<br> +
-                        Total Jual: Rp ${totalJual.toFixed(2)}<br> +
-                        Profit/Loss: Rp ${profit.toFixed(2)} (${profitPersen.toFixed(2)}%)<br>;
-
-        if (profitPersen >= 3 && profitPersen <= 5) {
-            hasilText += '<span style="color: #58a6ff">Target profit tercapai!</span>';
-        } else if (profitPersen <= -2) {
-            hasilText += '<span style="color: red">Warning: Loss melebihi batas!</span>';
-        }
-
-        document.getElementById("hasil").innerHTML = hasilText;
+    function validateField(field) {
+      const input = form.querySelector(`#${field.id}`);
+      const errorEl = input.nextElementSibling;
+      const isValid = field.validate(input.value);
+      if (!isValid) {
+        errorEl.style.display = 'block';
+        errorEl.textContent = field.error;
+        input.setAttribute('aria-invalid', 'true');
+      } else {
+        errorEl.style.display = 'none';
+        errorEl.textContent = '';
+        input.removeAttribute('aria-invalid');
+      }
+      return isValid;
     }
-</script>
 
+    function validateForm() {
+      return fields.map(f => validateField(f)).every(Boolean);
+    }
+
+    function updateQRInfo() {
+      const method = paymentMethodSelect.value;
+      let html = '';
+      if (method === 'qris') {
+        html = `
+          <div>
+            <strong>QRIS Payment Selected</strong>
+            <p>Scan the QR code below with your preferred app to complete the payment.</p>
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/655d0b8f-30ca-44ef-83c8-ada2bcaddcb8.png" alt="Placeholder QRIS payment QR code with blue gradient style" />
+          </div>
+        `;
+      } else if (method === 'dana') {
+        html = `
+          <div>
+            <strong>DANA Payment Selected</strong>
+            <p>Please open your DANA app and scan the QR code below to pay.</p>
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e824d4b4-a5ad-4f03-a5a6-37de02df46ad.png" alt="Placeholder DANA payment QR code with green gradient style" />
+          </div>
+        `;
+      }
+      qrInfo.innerHTML = html;
+      qrInfo.style.display = html ? 'block' : 'none';
+    }
+
+    paymentMethodSelect.addEventListener('change', e => {
+      validateField(fields.find(f => f.id === paymentMethodSelect.id));
+      updateQRInfo();
+    });
+
+    form.addEventListener('input', e => {
+      if (fields.some(f => f.id === e.target.id)) {
+        validateField(fields.find(f => f.id === e.target.id));
+      }
+    });
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      if (!validateForm()) {
+        return;
+      }
+      submitBtn.disabled = true;
+      submitBtn.setAttribute('aria-disabled', 'true');
+      confirmation.style.display = 'none';
+
+      // Simulate payment processing delay
+      setTimeout(() => {
+        confirmation.style.display = 'block';
+        form.reset();
+        qrInfo.style.display = 'none';
+        submitBtn.disabled = false;
+        submitBtn.setAttribute('aria-disabled', 'false');
+      }, 1200);
+    });
+
+    // Initialize QR info hidden on load
+    updateQRInfo();
+
+  })();
+</script>
 </body>
 </html>
+
